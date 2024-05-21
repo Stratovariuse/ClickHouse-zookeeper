@@ -23,3 +23,13 @@ https://clickhouse.com/docs/ru/operations/server-configuration-parameters/settin
 
 Настройки:
 https://clickhouse.com/docs/ru/operations/settings/settings
+
+### system.settings
+
+Содержит информацию о сессионных настройках для текущего пользователя.
+
+```
+SELECT *
+FROM system.settings
+WHERE name LIKE '%min_i%'
+```

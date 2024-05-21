@@ -1,0 +1,26 @@
+Либо в users.xml либо доп файлом в /etc/clickhouse-server/users.d/custom-users.xml
+
+Есть 3 категории
+
+* users
+* profile
+* quota
+
+### Users
+
+Это привычные нам роли, довольно мало настроек (пароль, доступ с ip/хоста) но так же ему можно присовить профиль/квоту, настройки которых будут влиять
+
+### Profile
+
+Задаются настройки, в основном для работы с запросами, потреблением памяти для конкретных ролей
+так же можно ограничивать работу с БД, таблицамми, колонками.
+
+https://clickhouse.com/docs/ru/operations/settings
+https://clickhouse.com/docs/en/operations/settings/query-complexity#timeout-overflow-mode
+https://clickhouse.com/docs/ru/operations/access-rights#settings-profiles-management
+https://clickhouse.com/docs/ru/sql-reference/statements/create/settings-profile   ---  для сессий, если нужно для постоянных значений то вносится в файл
+https://clickhouse.com/docs/en/operations/system-tables/settings   ---  узнать из клиента значение настроек для профиля
+
+
+### Quota
+

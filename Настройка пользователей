@@ -21,6 +21,35 @@ https://clickhouse.com/docs/ru/operations/access-rights#settings-profiles-manage
 https://clickhouse.com/docs/ru/sql-reference/statements/create/settings-profile   ---  для сессий, если нужно для постоянных значений то вносится в файл
 https://clickhouse.com/docs/en/operations/system-tables/settings   ---  узнать из клиента значение настроек для профиля
 
+```
+    <profiles>
+        <!-- Default settings. -->
+        <default>
+        </default>
+
+        <!-- Profile that allows only read queries. -->
+        <readonly>
+            <readonly>1</readonly>
+        </readonly>
+        <ronly>
+            <readonly>1</readonly>
+            <max_execution_time>180</max_execution_time>
+        </ronly>
+    </profiles>
+```
+
+```<users>
+    
+        <ch_user>
+            <profile>ronly</profile>
+            <password>ch_password</password>
+            <access_management>0</access_management>
+            <networks>
+                <host>localhost</host>
+            </networks>
+        </ch_user>
+    </users>
+```
 
 ### Quota
 

@@ -90,3 +90,14 @@ disableProtocols
 
 preferServerCiphers
 Предпочтение серверных шифров на клиенте. Допустимые значения — true, false.  
+
+### Ошибка
+
+Если при подключении clickhouse-client --secure
+Code: 210. DB::NetException: SSL Exception: error:1000007d:SSL routines:OPENSSL_internal:CERTIFICATE_VERIFY_FAILED (localhost:9440)
+
+Исправить это можно двумя путями - либо подложить клиенту в /etc/clickhouse-client/config.xml CA сертификат, который подписал сертификат сервера. Или же в том же файле можно отключить проверку сертификта на клиенте:
+
+```
+<verificationMode>none</verificationMode>
+```

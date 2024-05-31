@@ -1,5 +1,8 @@
 # Конфигурация ClickHouse кластера
 
+https://clickhouse.com/docs/ru/engines/table-engines/special/distributed
+https://clickhouse.com/docs/ru/development/architecture#distributed-query-execution
+
 ```
 <remote_servers incl="clickhouse_remote_servers">
 <include_from>/etc/clickhouse-server/cluster.xml</include_from>

@@ -1,7 +1,7 @@
 # Конфигурация ClickHouse кластера
 
 ```
-<remote_servers incl="clickhouse_remote_servers" />
+<remote_servers incl="clickhouse_remote_servers">
 <include_from>/etc/clickhouse-server/cluster.xml</include_from>
 ```
 remote_servers - — основное место, где описывается структура кластера.  

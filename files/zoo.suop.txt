@@ -1,0 +1,64 @@
+fdisk -l /dev/sda     (n w)
+mkdir /var/lib/pgsql
+vgcreate vg_data /dev/sda4
+lvcreate -n lv_pgsql -l+100%FREE vg_data
+mkfs.xfs /dev/mapper/vg_data-lv_pgsql
+echo "/dev/mapper/vg_data-lv_pgsql   /var/lib/pgsql                     xfs     defaults        0 2" >> /etc/fstab
+mount -a
+
+ZOOKEEPER 
+
+yum install -y java-11-openjdk telnet nc wget tar nmap
+cd /opt/
+wget https://dlcdn.apache.org/zookeeper/zookeeper-3.9.2/apache-zookeeper-3.9.2-bin.tar.gz
+mkdir /opt/zookeeper
+tar zxvf apache-zookeeper-*-bin.tar.gz -C /opt/zookeeper --strip-components=1
+mkdir /var/log/zookeeper
+cd /opt/zookeeper/
+vi conf/zoo.cfg
+
+
+
+tickTime=2000
+clientPort=2181
+dataDir=/var/lib/zookeeper
+dataLogDir=/var/log/zookeeper
+4lw.commands.whitelist=stat
+autopurge.snapRetainCount=10
+autopurge.purgeInterval=12
+initLimit=300
+syncLimit=10
+
+server.1=10.128.0.3:2888:3888
+server.2=10.128.0.7:2888:3888
+server.3=10.128.0.26:2888:3888
+
+
+ vi /var/lib/zookeeper/myid
+ cd bin/
+ ss -tunlp | grep :2181
+ vi /etc/systemd/system/zookeeper.service
+
+
+[Unit]
+Description=ZooKeeper Service
+Documentation=https://zookeeper.apache.org/
+Requires=network.target
+After=network.target
+
+[Service]
+Type=forking
+WorkingDirectory=/opt/zookeeper
+ExecStart=/opt/zookeeper/bin/zkServer.sh start
+ExecStop=/opt/zookeeper/bin/zkServer.sh stop
+ExecReload=/opt/zookeeperbin/zkServer.sh restart
+TimeoutSec=30
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
+systemctl daemon-reload
+systemctl enable zookeeper --now
+ echo "stat" | nc localhost 2181
+

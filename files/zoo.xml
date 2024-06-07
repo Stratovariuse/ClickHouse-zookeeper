@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<clickhouse>
+  <zookeeper replace="1">
+    <node index="1">
+      <host>server1</host>
+      <port>2181</port>
+    </node>
+    <node index="2">
+      <host>server2</host>
+      <port>2181</port>
+    </node>
+    <node index="3">
+      <host>server3</host>
+      <port>2181</port>
+    </node>
+  </zookeeper>
+</clickhouse>

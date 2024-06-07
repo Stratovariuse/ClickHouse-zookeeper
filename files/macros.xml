@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<clickhouse>
+  <macros>
+    <cluster>my</cluster> // название кластера
+    <shard>01</shard>
+    <replica>ch1</replica> // Адрес данной машины
+  </macros>
+</clickhouse>
+
+<?xml version="1.0"?>
+<clickhouse>
+  <macros>
+    <cluster>my</cluster> // название кластера
+    <shard>01</shard>
+    <replica>ch2</replica> // Адрес данной машины
+  </macros>
+</clickhouse>
+
+<?xml version="1.0"?>
+<clickhouse>
+  <macros>
+    <cluster>my</cluster> // название кластера
+    <shard>02</shard>
+    <replica>ch3</replica> // Адрес данной машины
+  </macros>
+</clickhouse>
+
+<?xml version="1.0"?>
+<clickhouse>
+  <macros>
+    <cluster>my</cluster> // название кластера
+    <shard>02</shard>
+    <replica>ch4</replica> // Адрес данной машины
+  </macros>
+</clickhouse>

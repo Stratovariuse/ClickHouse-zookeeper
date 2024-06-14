@@ -21,6 +21,7 @@ clickhouse-client --format=TSVRaw -q"drop table $table_1;"
 clickhouse-client --format=TSVRaw -q"$myvariable;"
 echo $myvariable
 ```
+Скрипт от Олега
 
 ```
 function rsynctab()
@@ -52,4 +53,36 @@ function rsynctab()
     rm -Rf $sourcedir
   fi
 }
+```
+ Упрощенный скрипт
+
+ ```
+ #!/bin/bash
+
+readonly JOB_ID=$(/bin/date +%Y%m%d%H)
+LOG_DIR="/var/log/sh"
+LOG="$LOG_DIR/${JOB_ID}_$(hostname)_backup.log"
+tab_name="test"
+destdb="default"
+sourcedir="/var/lib/clickhouse"
+dest="$sourcedir/data/$destdb/$tab_name/detached"
+shadowdir="/var/lib/clickhouse/shadow"
+## Initiate Log file
+echo "$(date +%F-%H:%M:%S) $JOB_ID SSH  Starting full backup process, job id $JOB_ID" >> "$LOG"
+
+clickhouse-client --format=TSVRaw -q"ALTER TABLE $destdb.$tab_name freeze;"
+myvariable=$(clickhouse-client --format=TSVRaw -q"SHOW CREATE TABLE $destdb.$tab_name;")
+clickhouse-client --format=TSVRaw -q"drop table $destdb.$tab_name;"
+clickhouse-client --format=TSVRaw -q"$myvariable;"
+
+backup_num=$(cat $shadowdir/increment.txt)
+
+    for stdir in $(find "$shadowdir" -mindepth 4 -maxdepth 4 -type d); do
+      source="$stdir"
+      echo "Директория $source" > "$LOG"
+      cp -r $source/* $dest
+      chown -R clickhouse $dest
+    done;
+
+clickhouse-client --format=TSVRaw -q"select 'ALTER TABLE ' || database || '.' || table || ' ATTACH PARTITION ID \'' || partition_id || '\';\n' from system.detached_parts group by database, table, partition_id order by database, table, partition_id;" | clickhouse-client -mn
 ```

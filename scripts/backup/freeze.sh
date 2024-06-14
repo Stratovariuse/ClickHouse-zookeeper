@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Create sql file with query CREATE TABLE
-# FREEZE table parts
+## Create sql file with query CREATE TABLE
+## FREEZE table parts
 
 FILE="/var/lib/clickhouse/create.sql"
 tab_name="test"

@@ -22,3 +22,34 @@ clickhouse-client --format=TSVRaw -q"$myvariable;"
 echo $myvariable
 ```
 
+```
+function rsynctab()
+{
+  tab_name=$1
+  destdb=$2
+  backup_num=cat /var/lib/clickhouse/shadow/increment.txt
+  echo $backup_num
+  sourcedir=$sourcerootdir/shadow/$backup_num/
+  dest=$destrootdir/$server_name/$dateslot/data/$destdb/$tab_name/detached
+#  source=$sourcerootdir/shadow/$backup_num/data/$sourcedb/$tab_name/
+  if [ -d $sourcerootdir/shadow/$backup_num/data ]; then
+    # /var/lib/clickhouse/shadow/6811/data/wifi_db/wifi_stat_attendance
+    source=$sourcerootdir/shadow/$backup_num/data/$sourcedb/$tab_name/
+    echo "rsync from "$source" to "$destip":"$dest
+    time rsync --rsync-path="mkdir -p $dest && rsync" --bwlimit=$bwlim -avpP -e "ssh -p $destport" $source $destip:/$dest
+
+  else
+    # /var/lib/clickhouse/shadow/6810/store/e91/e9101028-40c9-46fe-98fc-c4c2cfb24f4a
+#    find $(pwd) -mindepth 3 -maxdepth 3 -type d
+    for stdir in $(find "$sourcedir" -mindepth 3 -maxdepth 3 -type d); do
+      source="$stdir"/
+      echo "rsync from "$source" to "$destip":"$dest
+      time rsync --rsync-path="mkdir -p $dest && rsync" --bwlimit=$bwlim -avpP -e "ssh -p $destport" $source $destip:/$dest
+    done;
+  fi
+  if [ $rmshadow = 1 ]; then
+    echo "rm -Rf $sourcedir"
+    rm -Rf $sourcedir
+  fi
+}
+```

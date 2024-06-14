@@ -11,3 +11,14 @@ clickhouse-client --format=TSVRaw -q"select 'ALTER TABLE ' || database || '.' ||
 
 Ничего менять не нужно, возьмет все парты из системной таблицы (в которой уже есть инфа о названиях БД и таблиц и ID партов)
 
+```
+#!/bin/bash
+
+table_1="test"
+echo $table_1
+myvariable=$(clickhouse-client --format=TSVRaw -q"SHOW CREATE TABLE $table_1;")
+clickhouse-client --format=TSVRaw -q"drop table $table_1;"
+clickhouse-client --format=TSVRaw -q"$myvariable;"
+echo $myvariable
+```
+
